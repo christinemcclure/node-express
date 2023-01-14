@@ -4,16 +4,28 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 const PORT = process.env.port || 5000
 const request = require('request');
+const bodyParser = require('body-parser');
 const doneAPI = "";
 
+// user body parser middleware
+app.use(bodyParser.urlencoded({extended: false})); 
+
 // API key pk_cee04a29e0f64d6da5f1b59cb58dcea9
-function call_api(finishedAPI) {
-    request('https://cloud.iexapis.com/stable/stock/fb/quote?token=pk_cee04a29e0f64d6da5f1b59cb58dcea9', { json: true }, (err, res, body) => {
-        if (err) { return console.log(err); }
+function call_api(finishedAPI, ticker) {
+    if(ticker == null){
+        ticker = "FB";
+    }
+    request(`https://cloud.iexapis.com/stable/stock/${ticker}/quote?token=pk_cee04a29e0f64d6da5f1b59cb58dcea9`, { json: true }, (err, res, body) => {
+        if (err) {
+            return console.log(err);
+            finishedAPI("");
+        }
             console.log(body);
+            
         if (res.statusCode === 200) {
             finishedAPI(body);
         }
+      
     
     });    
 }
@@ -23,13 +35,24 @@ function call_api(finishedAPI) {
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
 
-// Set Handlebar routes
+// Set Handlebar GET route
 app.get('/', function (req, res) {
     call_api(function (doneAPI) {
         res.render('home', {
             stock: doneAPI
         });
     });
+});
+
+//Set handlebars POST index route
+app.post('/', function (req, res) {
+	call_api(function(doneAPI){
+		//posted_stuff = req.body.stock_ticker;
+		res.render('home',{
+    	stock: doneAPI,
+    	});
+	}, req.body.stock_ticker);
+
 });
 
 app.get('/about.html', function (req, res) {

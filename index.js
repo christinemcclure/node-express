@@ -29,7 +29,7 @@ function call_api(finishedAPI, ticker) {
         }
 
         if (res.statusCode === 404) {
-            msg = `Ticker ${ticker} does not exist.`;
+            msg = `Ticker \"${ticker}\" does not exist.`;
             finishedAPI("");
         }
 

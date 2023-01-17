@@ -8,26 +8,33 @@ const bodyParser = require('body-parser');
 const doneAPI = "";
 
 // user body parser middleware
-app.use(bodyParser.urlencoded({extended: false})); 
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // API key pk_cee04a29e0f64d6da5f1b59cb58dcea9
 function call_api(finishedAPI, ticker) {
-    if(ticker == null){
+    if (ticker == null) {
         ticker = "FB";
     }
     request(`https://cloud.iexapis.com/stable/stock/${ticker}/quote?token=pk_cee04a29e0f64d6da5f1b59cb58dcea9`, { json: true }, (err, res, body) => {
         if (err) {
-            return console.log(err);
             finishedAPI("");
+            message = "Error accessing API.";
         }
-            console.log(body);
-            
+
         if (res.statusCode === 200) {
             finishedAPI(body);
+            message = "Success!";
+            console.log(body);
         }
-      
-    
-    });    
+
+        if (res.statusCode === 404) {
+            finishedAPI("");
+            message = `Ticker ${ticker} does not exist.`;
+        }
+
+        console.log(message);
+
+    });
 }
 
 
@@ -46,12 +53,12 @@ app.get('/', function (req, res) {
 
 //Set handlebars POST index route
 app.post('/', function (req, res) {
-	call_api(function(doneAPI){
-		//posted_stuff = req.body.stock_ticker;
-		res.render('home',{
-    	stock: doneAPI,
-    	});
-	}, req.body.stock_ticker);
+    call_api(function (doneAPI) {
+        //posted_stuff = req.body.stock_ticker;
+        res.render('home', {
+            stock: doneAPI,
+        });
+    }, req.body.stock_ticker);
 
 });
 

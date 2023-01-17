@@ -6,7 +6,7 @@ const PORT = process.env.port || 5000
 const request = require('request');
 const bodyParser = require('body-parser');
 const doneAPI = "";
-var message = "";
+var msg = "";
 
 // user body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -17,23 +17,21 @@ function call_api(finishedAPI, ticker) {
         ticker = "FB";
     }
     request(`https://cloud.iexapis.com/stable/stock/${ticker}/quote?token=pk_cee04a29e0f64d6da5f1b59cb58dcea9`, { json: true }, (err, res, body) => {
+        msg = "";
         if (err) {
+            msg = "Error accessing API.";
             finishedAPI("");
-            message = "Error accessing API.";
         }
 
         if (res.statusCode === 200) {
             finishedAPI(body);
-            message = "Success!";
             console.log(body);
         }
 
         if (res.statusCode === 404) {
+            msg = `Ticker ${ticker} does not exist.`;
             finishedAPI("");
-            message = `Ticker ${ticker} does not exist.`;
         }
-
-        console.log(message);
 
     });
 }
@@ -57,7 +55,7 @@ app.post('/', function (req, res) {
     call_api(function (doneAPI) {
         res.render('home', {
             stock: doneAPI,
-            message: message
+            message: msg
         });
     }, req.body.stock_ticker);
 

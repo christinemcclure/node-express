@@ -1,3 +1,2 @@
-web: node index.json
+web: node ./index.js
 
-<!-- https://serene-spire-41284.herokuapp.com/ -->

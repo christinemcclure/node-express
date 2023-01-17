@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const doneAPI = "";
 var msg = "";
 
+app.set('port', (process.env.PORT || 5000));
+
 // user body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 

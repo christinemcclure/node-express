@@ -6,6 +6,7 @@ const PORT = process.env.port || 5000
 const request = require('request');
 const bodyParser = require('body-parser');
 const doneAPI = "";
+var message = "";
 
 // user body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -54,9 +55,9 @@ app.get('/', function (req, res) {
 //Set handlebars POST index route
 app.post('/', function (req, res) {
     call_api(function (doneAPI) {
-        //posted_stuff = req.body.stock_ticker;
         res.render('home', {
             stock: doneAPI,
+            message: message
         });
     }, req.body.stock_ticker);
 

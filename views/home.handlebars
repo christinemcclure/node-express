@@ -1,20 +1,19 @@
 <div class="card bg-dark-subtle">
     <div class="card-body">
-        {{posted_stuff}}<br>
-    <h1>{{stock.companyName}} ({{stock.symbol}})</h1>
-<br>
-<strong>Latest Price:</strong> ${{stock.latestPrice}}<br>
-<strong>Previous Close:</strong> ${{stock.previousClose}}<br>
-<strong>Percent Change:</strong> {{stock.changePercent}}%<br>
-<strong>Market Cap:</strong> {{stock.marketCap}}<br>
-<strong>YTD Change:</strong> {{stock.ytdChange}}<br>
-<strong>52Wk High:</strong> ${{stock.week52High}}<br>
-<strong>52Wk Low:</strong> ${{stock.week52Low}}<br>
+        <h1>{{stock.companyName}} ({{stock.symbol}}) {{message}}</h1>
+        <br>
+        <strong>Latest Price:</strong> ${{stock.latestPrice}}<br>
+        <strong>Previous Close:</strong> ${{stock.previousClose}}<br>
+        <strong>Percent Change:</strong> {{stock.changePercent}}%<br>
+        <strong>Market Cap:</strong> {{stock.marketCap}}<br>
+        <strong>YTD Change:</strong> {{stock.ytdChange}}<br>
+        <strong>52Wk High:</strong> ${{stock.week52High}}<br>
+        <strong>52Wk Low:</strong> ${{stock.week52Low}}<br>
 
     </div>
 
 </div>
 
 {{!-- {{#each stock}}
-    {{@key}} | {{this}}<br/>
+{{@key}} | {{this}}<br />
 {{/each}} --}}

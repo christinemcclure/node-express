@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const exphbs = require('express-handlebars');
 const path = require('path');
-const PORT = process.env.port || 5000
+// const PORT = process.env.port || 5000
 const request = require('request');
 const bodyParser = require('body-parser');
 const doneAPI = "";
 var msg = "";
+
+app.set('port', (process.env.PORT || 5000));
 
 // user body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
